@@ -60,7 +60,8 @@ function getWidgetData(callback) {
 function getActiveUsers(callback) {
 	async.waterfall([
 		function (next) {
-			user.getUidsFromSet('users:online', 0, 19, next);
+            db.getSortedSetRevRangeByScore('users:online', 0, 19, '+inf', + new Date() - 300000*12, next);
+			// user.getUidsFromSet('users:online', 0, 19, next);
 		},
 		function (uids, next) {
 			user.getUsersFields(uids, ['username', 'userslug', 'status'], next);
@@ -70,7 +71,7 @@ function getActiveUsers(callback) {
 			return callback(err);
 		}
 
-		data = data.filter(function (a) { return a.status === 'online'; });
+		// data = data.filter(function (a) { return a.status === 'online'; });
 		callback(err, data);
 	});
 }
@@ -101,7 +102,7 @@ Widget.updateAndGetOnlineUsers = function (callback) {
 	async.waterfall([
 		function (next) {
 			var now = Date.now();
-			db.sortedSetCount('users:online', now - 300000, '+inf', next);
+			db.sortedSetCount('users:online', now - 300000*12, '+inf', next);
 		},
 		function (onlineCount, next) {
 			module.parent.require('./socket.io/admin/rooms').getTotalGuestCount(function (err, guestCount) {

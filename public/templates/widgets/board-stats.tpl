@@ -1,7 +1,7 @@
 <div component="widget/board-stats" class="widget-board-stats">
-    <h3>Who's Online <a href="{config.relative_path}/users?section=online">[Full List]</a></h3>
+    <h3>Who's Online</h3>
     <p>
-        <span component="widget/board-stats/count">{count}</span> users active right now (<span component="widget/board-stats/members">{members}</span> members and <span component="widget/board-stats/guests">{guests}</span> guests).<br />
+        <span component="widget/board-stats/count">{count}</span> users active in the past 60 minutes (<span component="widget/board-stats/members">{members}</span> members and <span component="widget/board-stats/guests">{guests}</span> guests).<br />
         <span component="widget/board-stats/list">{list}</span>
     </p>
 
