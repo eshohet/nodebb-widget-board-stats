@@ -105,16 +105,10 @@ Widget.updateAndGetOnlineUsers = function (callback) {
 			db.sortedSetCount('users:online', now - 300000*12*24, '+inf', next);
 		},
 		function (onlineCount, next) {
-			module.parent.require('./socket.io/admin/rooms').getTotalGuestCount(function (err, guestCount) {
-				if (err) {
-					return next(err);
-				}
-
-				next(null, {
-					onlineCount: parseInt(onlineCount, 10),
-					guestCount: parseInt(guestCount, 10),
-				});
-			});
+            db.sortedSetCount('ip:recent', + new Date() - 86400000, '+inf', (err, results) => next(err, {
+                onlineCount: parseInt(onlineCount, 10),
+                guestCount: parseInt(results, 10),
+			}));
 		},
 		function (users, next) {
 			db.getObjectFields('plugin:widget-board-stats', ['total', 'timestamp'], function (err, data) {
