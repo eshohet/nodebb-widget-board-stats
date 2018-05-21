@@ -60,7 +60,7 @@ function getWidgetData(callback) {
 function getActiveUsers(callback) {
 	async.waterfall([
 		function (next) {
-            db.getSortedSetRevRangeByScore('users:online', 0, 19, '+inf', + new Date() - 300000*12*24, next);
+            db.getSortedSetRevRangeByScore('users:online', 0, 1000, '+inf', + new Date() - 300000*12*24, next);
 			// user.getUidsFromSet('users:online', 0, 19, next);
 		},
 		function (uids, next) {
